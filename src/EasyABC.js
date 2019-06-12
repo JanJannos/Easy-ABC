@@ -20,7 +20,7 @@ class EasyABC extends Component {
     if (this.state.currentTick < 2) {
       this.setState({ currentTick: this.state.currentTick + 1 });
     } else {
-      this.setState({ currentPosition: this.state.currentPosition + 1 });
+      this.setState({ currentPosition: this.state.currentPosition + 1  , currentTick : 0});
     }
   }
 
@@ -28,6 +28,7 @@ class EasyABC extends Component {
 
     let  showImage = this.state.currentTick !== 0 ? true : false;
     let  showWord = this.state.currentTick === 2 ? true : false;
+    console.log(this.state.currentTick , showImage);
     return (
       <div className='game'>
         <div className='option'>
