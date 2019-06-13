@@ -13,22 +13,40 @@ class EasyABC extends Component {
     };
 
     this.next = this.next.bind(this);
+    this.prev = this.prev.bind(this);
+  }
+
+  prev() {
+    if (this.state.currentPosition > 0) {
+      this.setState({ currentPosition: this.state.currentPosition - 1 });
+    } else {
+      this.setState({ currentPosition: this.state.alphabets.length - 1 });
+    }
   }
 
   next() {
-    // console.log('Next Button Clicked');
-    if (this.state.currentTick < 2) {
-      this.setState({ currentTick: this.state.currentTick + 1 });
+    if (this.state.currentPosition === this.state.alphabets.length - 1) {
+      if (this.state.currentTick < 2) {
+        this.setState({ currentTick: this.state.currentTick + 1 });
+      } else {
+        this.setState({ currentPosition: 0, currentTick: 0 });
+      }
     } else {
-      this.setState({ currentPosition: this.state.currentPosition + 1  , currentTick : 0});
+      if (this.state.currentTick < 2) {
+        this.setState({ currentTick: this.state.currentTick + 1 });
+      } else {
+        this.setState({
+          currentPosition: this.state.currentPosition + 1,
+          currentTick: 0
+        });
+      }
     }
   }
 
   render() {
-
-    let  showImage = this.state.currentTick !== 0 ? true : false;
-    let  showWord = this.state.currentTick === 2 ? true : false;
-    console.log(this.state.currentTick , showImage);
+    let showImage = this.state.currentTick !== 0 ? true : false;
+    let showWord = this.state.currentTick === 2 ? true : false;
+    console.log(this.state.currentTick, showImage);
     return (
       <div className='game'>
         <div className='option'>
@@ -38,7 +56,9 @@ class EasyABC extends Component {
             </div>
           </div>
           <div className='buttons'>
-            <a className='button prev'>Previous</a>
+            <a onClick={this.prev} className='button prev'>
+              Previous
+            </a>
             <a className='button sound'>Play Sound</a>
             <a onClick={this.next} className='button next'>
               Next
@@ -47,16 +67,30 @@ class EasyABC extends Component {
           <div className='fields'>
             <div className='field-block'>
               <div className='left-field'>
-                <div className={classNames('placeholder-span' , {hide:showImage})}>Click Next to view Image</div>
-                <img className={classNames('letter-image' , {hide: !showImage})}
-                     src={this.state.alphabets[this.state.currentPosition].image}
-                     alt={this.state.alphabets[this.state.currentPosition].word}
+                <div
+                  className={classNames('placeholder-span', {
+                    hide: showImage
+                  })}
+                >
+                  Click Next to view Image
+                </div>
+                <img
+                  className={classNames('letter-image', { hide: !showImage })}
+                  src={this.state.alphabets[this.state.currentPosition].image}
+                  alt={this.state.alphabets[this.state.currentPosition].word}
                 />
               </div>
               <div className='right-field'>
-                <div className={classNames('placeholder-span' , {hide: showWord})}>Click Next to view Spelling</div>
-                <div className={classNames('word' , {hide: !showWord})}>
-                    {this.state.alphabets[this.state.currentPosition].word.toUpperCase()}</div>
+                <div
+                  className={classNames('placeholder-span', { hide: showWord })}
+                >
+                  Click Next to view Spelling
+                </div>
+                <div className={classNames('word', { hide: !showWord })}>
+                  {this.state.alphabets[
+                    this.state.currentPosition
+                  ].word.toUpperCase()}
+                </div>
               </div>
             </div>
           </div>
